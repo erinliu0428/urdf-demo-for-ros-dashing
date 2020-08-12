@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<robot name="dual_wheel_agv">
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <material name="red">
+    <color rgba="1 0 0 1"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0 1 0 1"/>
+  </material>
+  
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="1 0.5 0.5"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+
+  <link name="front_wheel_revolute">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+      <material name="blue"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="front_wheel_revolute_joint" type="revolute">
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="front_wheel_revolute"/>
+    <origin rpy="0 0 0" xyz="0.475 0 -0.26"/>
+    <limit lower="-1.57" upper="1.57" effort="1000.0" velocity="0.5"/>
+  </joint>
+
+  <link name="rear_wheel_revolute">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+      <material name="blue"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="rear_wheel_revolute_joint" type="revolute">
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="rear_wheel_revolute"/>
+    <origin rpy="0 0 0" xyz="-0.475 0 -0.26"/>
+    <limit lower="-1.57" upper="1.57" effort="1000.0" velocity="0.5"/>
+  </joint>
+
+  <link name="front_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+  
+  <joint name="front_wheel_joint" type="continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="front_wheel_revolute"/>
+    <child link="front_wheel"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.06"/>
+  </joint>
+
+  <link name="rear_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+  
+  <joint name="rear_wheel_joint" type="continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="rear_wheel_revolute"/>
+    <child link="rear_wheel"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.06"/>
+  </joint>
+
+
+  <link name="left_wheel_continuous">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+      <material name="red"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="left_wheel_continuous_joint" type="continuous">
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="left_wheel_continuous"/>
+    <origin rpy="0 0 0" xyz="0 0.225 -0.26"/>
+  </joint>
+
+
+  <link name="right_wheel_continuous">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+      <material name="red"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="right_wheel_continuous_joint" type="continuous">
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="right_wheel_continuous"/>
+    <origin rpy="0 0 0" xyz="0 -0.225 -0.26"/>
+  </joint>
+
+
+
+  <link name="left_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+  
+  <joint name="left_wheel_continuous" type="continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="left_wheel_continuous"/>
+    <child link="left_wheel"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.06"/>
+  </joint>
+
+
+  <link name="right_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="black"/>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+  
+  <joint name="right_wheel_continuous" type="continuous">
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="right_wheel_continuous"/>
+    <child link="right_wheel"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.06"/>
+  </joint>
+
+  <link name="magnetic_sensor">
+    <visual>
+      <geometry>
+        <box size="0.1 0.1 0.05"/>
+      </geometry>
+      <material name="green"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="magnetic_sensor_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="magnetic_sensor"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.265"/>
+  </joint>
+
+
+
+
+  <link name="jacking_machine_pole">
+    <visual>
+      <geometry>
+        <cylinder length="0.5" radius="0.01"/>
+      </geometry>
+      <origin rpy="0 1.57 0 " xyz="0.25 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="jacking_machine_extension" type="prismatic">
+    <parent link="base_link"/>
+    <child link="jacking_machine_pole"/>
+    <limit effort="1000.0" lower="0" upper="0.25" velocity="0.5"/>
+    <origin rpy="0 -1.57 0" xyz="0 0 0"/>
+  </joint>
+
+
+
+
+  <link name="jacking_machine">
+    <visual>
+      <origin rpy="0.0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="1 0.5 0.1"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="jacking_machine_joint" type="fixed">
+    <origin rpy="0 1.57 0" xyz="0.5 0 0"/>
+    <parent link="jacking_machine_pole"/>
+    <child link="jacking_machine"/>
+  </joint>
+</robot>
